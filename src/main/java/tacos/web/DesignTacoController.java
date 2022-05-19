@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import tacos.domain.Ingredient;
@@ -33,8 +34,7 @@ public class DesignTacoController {
                 new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
                 new Ingredient("JACK", "Monterrey Jack", Ingredient.Type.CHEESE),
                 new Ingredient("SLSA", "Salsa", Ingredient.Type.SAUCE),
-                new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE)
-        );
+                new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE));
 
         Ingredient.Type[] types = Ingredient.Type.values();
         for (Ingredient.Type type : types) {
@@ -56,6 +56,15 @@ public class DesignTacoController {
     public String showDesignForm() {
         log.info("show design form");
         return "design";
+    }
+
+    @PostMapping
+    public String processTaco(Taco taco,
+            @ModelAttribute TacoOrder tacoOrder) {
+        tacoOrder.addTaco(taco);
+        log.info("Processing taco: {}", taco);
+
+        return "redirect:/orders/current";
     }
 
     private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
