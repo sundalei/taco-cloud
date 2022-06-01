@@ -11,6 +11,10 @@
 
     <form method="post" th:object="${taco}" th:action="@{/design}">
 
+        <div th:if="${#fields.hasErrors('ingredients')}">
+            <span class="validationError" th:errors="*{ingredients}">Ingredient Error</span>
+        </div>
+
         <div class="grid">
             <div class="ingredient-group" id="wraps">
                 <h3>Designate your warp:</h3>
@@ -67,6 +71,7 @@
             <label>
                 <input type="text" th:field="*{name}"/>
             </label>
+            <span class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
             <br /><br />
             <button>Submit your taco</button>
         </div>
