@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    username: root
+    password: Fnst*1234
+    url: jdbc:mysql://localhost/tacocloud6
