@@ -1,6 +1,5 @@
 package tacos.data;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Repository
 public class JdbcIngredientRepository implements IngredientRepository {
 
@@ -44,7 +42,13 @@ public class JdbcIngredientRepository implements IngredientRepository {
 
     @Override
     public Ingredient save(Ingredient ingredient) {
-        return null;
+        jdbcTemplate.update(
+            "INSERT INTO Ingredient (id, name, type) VALUES (?, ?, ?)",
+            ingredient.getId(),
+            ingredient.getName(),
+            ingredient.getType().toString()
+        );
+        return ingredient;
     }
 
     private Ingredient mapRowToIngredient(ResultSet row, int rowNum) throws SQLException {
