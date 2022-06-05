@@ -1,4 +1,10 @@
 spring:
   datasource:
-    name: tacocloud
-    generate-unique-name: false
+    username: root
+    password: mypassword
+    url: jdbc:mysql://localhost/taco_cloud
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
