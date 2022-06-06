@@ -1,10 +1,6 @@
 spring:
-  datasource:
-    username: root
-    password: mypassword
-    url: jdbc:mysql://localhost/taco_cloud
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+  data:
+    cassandra:
+      keyspace-name: tacocloud
+      schema-action: recreate
+      local-datacenter: datacenter1

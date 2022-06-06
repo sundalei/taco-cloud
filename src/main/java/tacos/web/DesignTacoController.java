@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tacos.data.IngredientRepository;
-import tacos.domain.Ingredient;
-import tacos.domain.Taco;
-import tacos.domain.TacoOrder;
+import tacos.data.TacoRepository;
+import tacos.domain.*;
 
 import javax.validation.Valid;
 
@@ -30,10 +29,13 @@ import java.util.stream.Collectors;
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
+    private final TacoRepository tacoRepository;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository,
+                                TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
+        this.tacoRepository = tacoRepository;
     }
 
     @ModelAttribute
@@ -72,8 +74,9 @@ public class DesignTacoController {
             return "design";
         }
 
-        tacoOrder.addTaco(taco);
+        tacoOrder.addTaco(new TacoUDT(taco.getName(), taco.getIngredients()));
         log.info("Processing taco: {}", taco);
+        tacoRepository.save(taco);
 
         return "redirect:/orders/current";
     }
