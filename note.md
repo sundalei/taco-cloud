@@ -20,4 +20,5 @@ cqlsh> create keyspace tacocloud with replication={'class':'SimpleStrategy', 're
 ```
 cqlsh> use tacocloud;
 cqlsh:tacocloud> select id, name, createdAt, ingredients from tacos;
+cqlsh:tacocloud> select * from orders;
 ```
