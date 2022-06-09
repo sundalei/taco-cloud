@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import tacos.domain.TacoOrder;
 
-public interface OrderRepository extends CrudRepository<TacoOrder, Long> {
+public interface OrderRepository extends CrudRepository<TacoOrder, String> {
 
     List<TacoOrder> findByDeliveryZip(String deliveryZip);
 
