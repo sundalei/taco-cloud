@@ -13,6 +13,10 @@
             Unable to login. Check your username and password.
         </div>
 
+        <form method="POST" th:action="@{/logout}">
+            <input type="submit" value="Logout"/>
+        </form>
+
         <p>New here? Click <a th:href="@{/register}">here</a> to register.</p>
 
         <form method="POST" th:action="@{/login}" id="loginForm">
@@ -24,5 +28,7 @@
 
             <input type="submit" value="Login" />
         </form>
+
+        <a th:href="@{/oauth2/authorization/github}">Sign in with Github</a>
     </body>
 </html>
