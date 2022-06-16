@@ -27,13 +27,13 @@ public class OrderController {
     private final OrderRepository orderRepository;
 
     public OrderController(OrderRepository orderRepository,
-    UserRepository userRepository) {
+            UserRepository userRepository) {
         this.orderRepository = orderRepository;
     }
-    
+
     @GetMapping("/current")
     public String orderForm(@AuthenticationPrincipal TacoUser user,
-    @ModelAttribute TacoOrder tacoOrder) {
+            @ModelAttribute TacoOrder tacoOrder) {
         if (tacoOrder.getDeliveryName() == null) {
             tacoOrder.setDeliveryName(user.getFullname());
         }
@@ -51,21 +51,21 @@ public class OrderController {
         }
 
         tacoOrder.setCcNumber("38520000023237");
-        
+
         return "orderForm";
     }
 
     @PostMapping
     public String processOrder(@Valid TacoOrder order, Errors errors,
-                               SessionStatus sessionStatus,
-                               @AuthenticationPrincipal TacoUser user) {
+            SessionStatus sessionStatus,
+            @AuthenticationPrincipal TacoUser user) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
 
         log.info("process order, order user {}", user);
         order.setUser(user);
-        
+
         orderRepository.save(order);
         sessionStatus.setComplete();
 
