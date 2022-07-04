@@ -1,8 +1,9 @@
 spring:
   datasource:
-    username: root
-    password: mypassword
-    url: jdbc:mysql://localhost/taco_cloud
+    url: jdbc:mysql://localhost/tacocloud
+    username: tacouser
+    password: tacopassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
