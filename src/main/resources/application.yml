@@ -9,3 +9,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+server:
+  port: 8443
+  ssl:
+    key-store: file:///Users/leosun/mykeys.jks
+    key-store-password: oarnud9I
+    key-password: oarnud9I
