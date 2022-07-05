@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tacos.data.OrderRepository;
 import tacos.domain.TacoOrder;
+import tacos.domain.TacoUser;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -32,6 +34,12 @@ public class TacoOrderController {
     public List<TacoOrder> findOrdersByDeliveryZipAndDate(@PathVariable String deliveryZip,
             @PathVariable Date startDate, @PathVariable Date endDate) {
         return orderRepository.readOrdersByDeliveryZipAndPlacedAtBetween(deliveryZip, startDate, endDate);
+    }
+
+    @GetMapping
+    public List<TacoOrder> findOrdersByUser(
+            @AuthenticationPrincipal TacoUser user) {
+        return orderRepository.findByUserOrderByPlaceAtDesc(user);
     }
 
 }
