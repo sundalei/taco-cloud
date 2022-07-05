@@ -9,3 +9,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+logging:
+  level:
+    root: warn
+    org:
+      springframework:
+        security: debug
