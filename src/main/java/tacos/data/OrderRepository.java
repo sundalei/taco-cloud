@@ -14,5 +14,5 @@ public interface OrderRepository extends CrudRepository<TacoOrder, Long> {
 
     List<TacoOrder> readOrdersByDeliveryZipAndPlacedAtBetween(String deliveryZip, Date startDate, Date endDate);
 
-    List<TacoOrder> findByUserOrderByPlaceAtDesc(TacoUser user);
+    List<TacoOrder> findByUserOrderByPlacedAtDesc(TacoUser user);
 }

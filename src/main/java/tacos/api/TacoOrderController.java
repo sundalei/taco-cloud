@@ -39,7 +39,7 @@ public class TacoOrderController {
     @GetMapping
     public List<TacoOrder> findOrdersByUser(
             @AuthenticationPrincipal TacoUser user) {
-        return orderRepository.findByUserOrderByPlaceAtDesc(user);
+        return orderRepository.findByUserOrderByPlacedAtDesc(user);
     }
 
 }

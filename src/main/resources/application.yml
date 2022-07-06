@@ -1,18 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/tacocloud
-    username: tacouser
-    password: tacopassword
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mariadb://localhost/tacocloud
+    username: root
+    password: oarnud9I
+    driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-logging:
-  level:
-    root: warn
-    org:
-      springframework:
-        security: debug

@@ -80,7 +80,7 @@ public class OrderController {
             @AuthenticationPrincipal TacoUser user, Model model) {
 
         model.addAttribute("orders",
-                orderRepository.findByUserOrderByPlaceAtDesc(user));
+                orderRepository.findByUserOrderByPlacedAtDesc(user));
 
         return "orderList";
     }
