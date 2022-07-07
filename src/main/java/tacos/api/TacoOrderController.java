@@ -3,7 +3,8 @@ package tacos.api;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,6 @@ public class TacoOrderController {
 
     private final OrderRepository orderRepository;
 
-    @Autowired
     public TacoOrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -39,7 +39,8 @@ public class TacoOrderController {
     @GetMapping
     public List<TacoOrder> findOrdersByUser(
             @AuthenticationPrincipal TacoUser user) {
-        return orderRepository.findByUserOrderByPlacedAtDesc(user);
+        Pageable pageable = PageRequest.of(0, 20);
+        return orderRepository.findByUserOrderByPlacedAtDesc(user, pageable);
     }
 
 }
