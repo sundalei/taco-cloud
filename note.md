@@ -1,11 +1,10 @@
-https://github.com/spring-projects/spring-security/issues/5341
+# Create a running db instance via docker
 
-## create a running db instance via docker
 ```docker
 docker network create mariadb-network
 ```
 
-```
+```docker
 docker container run --detach \
 --network mariadb-network \
 --name mariadb-db \
@@ -17,7 +16,7 @@ docker container run --detach \
 mariadb:latest
 ```
 
-```
+```docker
 docker run -it --network mariadb-network --rm mariadb mysql -hmariadb-db -uroot -p
 create database tacocloud;
 ```
