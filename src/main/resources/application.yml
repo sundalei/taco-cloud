@@ -1,10 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost/tacocloud
-    username: root
-    password: oarnud9I
-    driver-class-name: org.mariadb.jdbc.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
