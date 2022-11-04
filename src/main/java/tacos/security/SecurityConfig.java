@@ -39,6 +39,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests()
                     .antMatchers("/design", "/orders").hasRole("USER")
+                    .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/", "/**").permitAll()
                 .and()
                     .formLogin()
@@ -47,6 +48,9 @@ public class SecurityConfig {
                     .logout()
                         .logoutSuccessUrl("/")
                 .and()
+                    .csrf().ignoringAntMatchers("/h2-console/**")
+                .and()
+                    .headers().frameOptions().disable().and()
                 .build();
     }
 }
