@@ -102,6 +102,9 @@
 					</from>
 					<to>
 						<image>sundalei/${project.artifactId}:${project.version}</image>
+						<tags>
+						  <tag>latest</tag>
+						</tags>
 						<auth>
 							<username>sundalei</username>
 							<password>oarnud9Itest</password>
