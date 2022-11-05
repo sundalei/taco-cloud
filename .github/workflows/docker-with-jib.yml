@@ -13,7 +13,7 @@ jobs:
     - name: Checkout main branch
       uses: actions/checkout@v3
     - name: Check which branch 
-      run: 'echo ${{ github.branch}}'
+      run: echo '${{ github.head_ref || github.ref_name }}'
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
