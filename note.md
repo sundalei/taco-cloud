@@ -20,3 +20,8 @@ mariadb:latest
 docker run -it --network mariadb-network --rm mariadb mysql -hmariadb-db -uroot -p
 create database tacocloud;
 ```
+
+run with profile `mysql`
+```
+java -jar -Dspring.profiles.active=mysql target/taco-cloud-0.0.1-SNAPSHOT.jar
+```
