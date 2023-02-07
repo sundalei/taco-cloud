@@ -50,6 +50,9 @@ public class SecurityConfig {
                 .and()
                     .csrf().ignoringRequestMatchers(new RequestMatcher() {
 
+                        // Disable csrf for conditions belows.
+                        // for path starts with h2-console
+                        // for method requests
                         @Override
                         public boolean matches(HttpServletRequest request) {
                             String path = request.getRequestURI();
