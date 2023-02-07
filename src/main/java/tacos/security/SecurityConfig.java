@@ -2,28 +2,28 @@ package tacos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import jakarta.servlet.http.HttpServletRequest;
 import tacos.data.UserRepository;
 import tacos.domain.TacoUser;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
             TacoUser user = userRepository.findByUsername(username);
             if (user != null) {
@@ -35,12 +35,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests()
-                    .antMatchers("/design", "/orders").hasRole("USER")
-                    .antMatchers("/h2-console/**").permitAll()
-                    .antMatchers("/", "/**").permitAll()
+                    .requestMatchers("/design", "/orders").hasRole("USER")
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/", "/**").permitAll()
                 .and()
                     .formLogin()
                         .loginPage("/login")
@@ -48,7 +48,16 @@ public class SecurityConfig {
                     .logout()
                         .logoutSuccessUrl("/")
                 .and()
-                    .csrf().ignoringAntMatchers("/h2-console/**")
+                    .csrf().ignoringRequestMatchers(new RequestMatcher() {
+
+                        @Override
+                        public boolean matches(HttpServletRequest request) {
+                            String path = request.getRequestURI();
+                            String method = request.getMethod();
+                            return path.startsWith("/h2-console/") || method.equalsIgnoreCase("post");
+                        }
+                        
+                    })
                 .and()
                     .headers().frameOptions().disable().and()
                 .build();

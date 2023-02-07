@@ -13,3 +13,7 @@ spring:
 taco:
   orders:
     pageSize: 10
+
+logging:
+  level:
+    root: debug
