@@ -72,9 +72,9 @@ public class OrderController {
         order.setUser(user);
 
         orderRepository.save(order);
-        sessionStatus.setComplete();
 
         log.info("Order submitted: {}", order);
+        sessionStatus.setComplete();
 
         return "redirect:/";
     }
