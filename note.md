@@ -26,3 +26,8 @@ run with profile `mysql`
 ```bash
 java -jar -Dspring.profiles.active=mysql target/taco-cloud-0.0.1-SNAPSHOT.jar
 ```
+
+run different profile via maven
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+```
