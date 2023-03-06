@@ -23,7 +23,7 @@ public class TacoOrderController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TacoOrderController.class);
 
-    @Value("taco.orders.page-size")
+    @Value("${taco.orders.page-size}")
     private int pageSize;
 
     private final OrderRepository orderRepository;
