@@ -1,17 +1,12 @@
 package tacos.web;
 
-import lombok.extern.slf4j.Slf4j;
-
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import tacos.data.IngredientRepository;
 import tacos.domain.Ingredient;
 import tacos.domain.Taco;
@@ -21,17 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
-public class DesignTacoController {
+public record DesignTacoController(IngredientRepository ingredientRepository) {
 
-    private final IngredientRepository ingredientRepository;
-
-    public DesignTacoController(IngredientRepository ingredientRepository) {
-        this.ingredientRepository = ingredientRepository;
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(DesignTacoController.class);
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
@@ -56,7 +46,7 @@ public class DesignTacoController {
 
     @GetMapping
     public String showDesignForm() {
-        log.info("show design form");
+        LOG.info("show design form");
         return "design";
     }
 
@@ -70,7 +60,7 @@ public class DesignTacoController {
         }
 
         tacoOrder.addTaco(taco);
-        log.info("Processing taco: {}", taco);
+        LOG.info("Processing taco: {}", taco);
 
         return "redirect:/orders/current";
     }
