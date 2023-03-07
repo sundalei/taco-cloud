@@ -5,3 +5,5 @@
 Getting started with Spring
 
 ## Chapter 02 Developing web applications
+
+Intro to REST endpoints and Controller
