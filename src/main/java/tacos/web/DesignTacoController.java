@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import tacos.data.IngredientRepository;
 import tacos.domain.Ingredient;
+import tacos.domain.IngredientType;
 import tacos.domain.Taco;
 import tacos.domain.TacoOrder;
 
@@ -28,8 +29,8 @@ public record DesignTacoController(IngredientRepository ingredientRepository) {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(ingredients::add);
 
-        Ingredient.Type[] types = Ingredient.Type.values();
-        for (Ingredient.Type type : types) {
+        IngredientType[] types = IngredientType.values();
+        for (IngredientType type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
     }
@@ -65,7 +66,7 @@ public record DesignTacoController(IngredientRepository ingredientRepository) {
         return "redirect:/orders/current";
     }
 
-    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
+    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, IngredientType type) {
         return ingredients.stream().filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
     }
