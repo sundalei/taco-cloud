@@ -1,21 +1,24 @@
 package tacos.web;
 
-import jakarta.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import tacos.data.IngredientRepository;
 import tacos.domain.Ingredient;
 import tacos.domain.IngredientType;
 import tacos.domain.Taco;
 import tacos.domain.TacoOrder;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/design")
@@ -53,12 +56,8 @@ public record DesignTacoController(IngredientRepository ingredientRepository) {
 
     @PostMapping
     public String processTaco(
-            @Valid Taco taco, Errors errors,
+            Taco taco,
             @ModelAttribute TacoOrder tacoOrder) {
-
-        if (errors.hasErrors()) {
-            return "design";
-        }
 
         tacoOrder.addTaco(taco);
         LOG.info("Processing taco: {}", taco);
