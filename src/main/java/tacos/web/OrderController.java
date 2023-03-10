@@ -2,17 +2,22 @@ package tacos.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jakarta.validation.Valid;
 import tacos.data.OrderRepository;
 import tacos.domain.TacoOrder;
 
-//@Controller
-//@RequestMapping("/orders")
-//@SessionAttributes("tacoOrder")
+@Controller
+@RequestMapping("/orders")
+@SessionAttributes("tacoOrder")
 public record OrderController(OrderRepository orderRepository, OrderProps props) {
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
@@ -27,10 +32,15 @@ public record OrderController(OrderRepository orderRepository, OrderProps props)
     }
 
     @PostMapping
-    public String processOrder(TacoOrder order,
+    public String processOrder(@Valid TacoOrder order,
+    		Errors errors,
             SessionStatus sessionStatus) {
+    	
+    	if (errors.hasErrors()) {
+    		return "orderForm";
+    	}
 
-        //orderRepository.save(order);
+        orderRepository.save(order);
 
         LOG.info("Order submitted: {}", order);
         sessionStatus.setComplete();

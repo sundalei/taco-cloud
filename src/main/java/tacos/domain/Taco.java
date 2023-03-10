@@ -15,9 +15,9 @@ public class Taco {
 
     private String name;
 
-    private List<Ingredient> ingredients = new ArrayList<>();
+    private List<IngredientRef> ingredients = new ArrayList<>();
 
-    public void addIngredient(Ingredient ingredient) {
+    public void addIngredient(IngredientRef ingredient) {
         this.ingredients.add(ingredient);
     }
 }
