@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
 import lombok.Data;
 
 @Data
+@Table
 public class TacoOrder {
 
+    @Id
     private Long id;
 
     private Date placedAt = new Date();
