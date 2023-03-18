@@ -3,6 +3,11 @@ spring:
     generate-unique-name: false
     name: tacocloud
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 taco:
   orders:
     pageSize: 10
