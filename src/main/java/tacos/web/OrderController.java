@@ -1,6 +1,6 @@
 package tacos.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import tacos.data.OrderRepository;
 import tacos.domain.TacoOrder;
 
-import javax.validation.Valid;
-
 @Slf4j
 @Controller
 @RequestMapping("/orders")
@@ -23,7 +21,6 @@ public class OrderController {
 
     private final OrderRepository orderRepository;
 
-    @Autowired
     public OrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
