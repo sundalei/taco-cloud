@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @RequiredArgsConstructor
 public class TacoUser implements UserDetails {
 
