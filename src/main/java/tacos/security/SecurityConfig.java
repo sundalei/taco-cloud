@@ -2,16 +2,17 @@ package tacos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.ArrayList;
-import java.util.List;
+import tacos.data.UserRepository;
+import tacos.domain.User;
+
+import java.util.Optional;
 
 @Configuration
 public class SecurityConfig {
@@ -22,14 +23,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        List<UserDetails> users = new ArrayList<>();
-        users.add(new User(
-                "buzz", encoder.encode("password"),
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))));
-        users.add(new User(
-                "woody", encoder.encode("password"),
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))));
-        return new InMemoryUserDetailsManager(users);
+    UserDetailsService userDetailsService(UserRepository userRepo) {
+        return username -> {
+            Optional<User> user = userRepo.findByUsername(username);
+            return user.orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found."));
+        };
+    }
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.authorizeHttpRequests(authorizeHttpRequests -> {
+            authorizeHttpRequests.requestMatchers("/design", "/orders").hasRole("USER");
+            authorizeHttpRequests.requestMatchers("/", "/**").permitAll();
+        });
+
+        http.formLogin(formLogin -> formLogin.loginPage("/login").loginProcessingUrl("/authenticate"));
+
+        return http.build();
     }
 }
