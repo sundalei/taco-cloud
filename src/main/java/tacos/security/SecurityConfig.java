@@ -38,7 +38,10 @@ public class SecurityConfig {
             authorizeHttpRequests.requestMatchers("/", "/**").permitAll();
         });
 
-        http.formLogin(formLogin -> formLogin.loginPage("/login").loginProcessingUrl("/authenticate"));
+        http.formLogin(formLogin -> formLogin.loginPage("/login")
+                .loginProcessingUrl("/authenticate")
+                .usernameParameter("user")
+                .passwordParameter("pwd"));
 
         return http.build();
     }
