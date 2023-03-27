@@ -41,7 +41,8 @@ public class SecurityConfig {
         http.formLogin(formLogin -> formLogin.loginPage("/login")
                 .loginProcessingUrl("/authenticate")
                 .usernameParameter("user")
-                .passwordParameter("pwd"));
+                .passwordParameter("pwd")
+                .defaultSuccessUrl("/design"));
 
         return http.build();
     }
