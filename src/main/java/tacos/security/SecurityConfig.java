@@ -16,12 +16,12 @@ import tacos.domain.TacoUser;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
             TacoUser user = userRepository.findByUsername(username);
             if (user != null) {
@@ -33,22 +33,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(a -> a
-                        .antMatchers("/design", "/orders").hasRole("USER")
-                        .anyRequest().permitAll()
-                )
-                .formLogin()
-                    .loginPage("/login")
-                .and()
-                    .oauth2Login()
-                        .loginPage("/login")
-                .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
-                .and()
-                .build();
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.authorizeHttpRequests(authorizeHttpRequests -> {
+            authorizeHttpRequests.requestMatchers("/design", "/orders").hasRole("USER");
+            authorizeHttpRequests.requestMatchers("/**").permitAll();
+        });
+
+        http.formLogin(formLogin -> formLogin.loginPage("/login"));
+        http.oauth2Login(oauth2Login -> oauth2Login.loginPage("/login"));
+        http.logout(logout -> logout.logoutSuccessUrl("/"));
+
+        return http.build();
 
     }
 }
