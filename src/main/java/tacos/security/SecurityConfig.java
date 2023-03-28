@@ -9,9 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import tacos.data.UserRepository;
 import tacos.domain.TacoUser;
 
@@ -38,33 +36,20 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests()
-                    .requestMatchers("/design", "/orders").hasRole("USER")
-                    .requestMatchers("/h2-console/**").permitAll()
-                    .requestMatchers("/", "/**").permitAll()
-                .and()
-                    .formLogin()
-                        .loginPage("/login")
-                .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
-                .and()
-                    .csrf().ignoringRequestMatchers(new RequestMatcher() {
 
-                        // Disable csrf for conditions belows.
-                        // for path starts with h2-console
-                        // for method requests
-                        @Override
-                        public boolean matches(HttpServletRequest request) {
-                            String path = request.getRequestURI();
-                            String method = request.getMethod();
-                            return path.startsWith("/h2-console/") || method.equalsIgnoreCase("post");
-                        }
-                        
-                    })
-                .and()
-                    .headers().frameOptions().disable().and()
-                .build();
+        http.authorizeHttpRequests(authorizeHttpRequests -> {
+            authorizeHttpRequests.requestMatchers("/design", "/orders").hasRole("USER");
+            authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll();
+            authorizeHttpRequests.requestMatchers("/", "/**").permitAll();
+        });
+
+        http.formLogin(formLogin -> formLogin.loginPage("/login"));
+        http.logout(logout -> logout.logoutSuccessUrl("/"));
+
+        http.csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
+
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+
+        return http.build();
     }
 }
