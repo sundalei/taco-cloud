@@ -36,9 +36,13 @@ public class TacoUser implements UserDetails {
     private final String state;
     private final String zip;
     private final String phoneNumber;
+    private final String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (role != null && role.equals("admin")) {
+            return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 

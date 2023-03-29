@@ -9,6 +9,21 @@
         <h1>Taco Order Admin</h1>
         <img th:src="@{/images/TacoCloud.png}" />
 
+        <table border="1">
+            <thead>
+                <th>
+                    <td>Id</td>
+                    <td>Delivery City</td>
+                </th>
+            </thead>
+            <tbody>
+                <tr th:each="tacoOrder : ${orders}">
+                    <td th:text="${tacoOrder.id}">Id</td>
+                    <td th:text="${tacoOrder.deliveryCity}">deliveryCity</td>
+                </tr>
+            </tbody>
+        </table>
+
         <form method="POST" th:action="@{/admin/deleteOrders}" id="orderAdminForm">
 
             <input type="submit" value="Delete All Orders" />
