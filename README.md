@@ -12,10 +12,10 @@ Intro to REST endpoints and Controller
 
 Intro to spring jdbc, spring data jdbc and spring jpa
 
-## Working with nonrelational data
+## Chapter 04 Working with nonrelational data
 
 Intro to spring data integration with nosql.
 
-## Securing Spring
+## Chapter 05 Securing Spring
 
 Intro to secure spring endpoints.
