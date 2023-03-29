@@ -16,8 +16,8 @@ public class TacoCloudApplication {
 		SpringApplication.run(TacoCloudApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner dataLoader(IngredientRepository repository) {
+    @Bean
+    CommandLineRunner dataLoader(IngredientRepository repository) {
 		return args -> {
 			repository.save(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
 			repository.save(new Ingredient("COTO", "Corn Tortilla", Type.WRAP));

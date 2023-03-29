@@ -2,28 +2,31 @@ package tacos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import tacos.data.UserRepository;
 import tacos.domain.TacoUser;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
             TacoUser user = userRepository.findByUsername(username);
             if (user != null) {
@@ -35,18 +38,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests()
-                    .antMatchers("/design", "/orders").hasRole("USER")
-                    .antMatchers("/", "/**").permitAll()
-                .and()
-                    .formLogin()
-                        .loginPage("/login")
-                .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
-                .and()
-                .build();
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorizeHttpRequests -> {
+            authorizeHttpRequests.requestMatchers("/design", "/orders").hasAnyRole("USER", "ADMIN");
+            authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll();
+            authorizeHttpRequests.requestMatchers("/", "/**").permitAll();
+        });
+
+        http.formLogin(formLogin -> formLogin.loginPage("/login"));
+        http.logout(logout -> logout.logoutSuccessUrl("/"));
+
+        http.csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
+
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+
+        return http.build();
     }
 }
