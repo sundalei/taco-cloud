@@ -4,3 +4,10 @@ spring:
       host: localhost
       port: 27017
       database: tacocloud
+
+logging:
+  level:
+    root: warn
+    org.springframework.security: debug
+  file:
+    name: TacoCloud.log
