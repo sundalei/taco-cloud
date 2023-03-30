@@ -4,6 +4,7 @@
 
 ```shell
 docker network create mongo-net
+docker volume create mongo-volume
 
 docker container run --name my-mongo \
 --network mongo-net \

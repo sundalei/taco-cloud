@@ -49,6 +49,8 @@ public class TacoOrder {
 
     private List<Taco> tacos = new ArrayList<>();
 
+    private User user;
+
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
     }
