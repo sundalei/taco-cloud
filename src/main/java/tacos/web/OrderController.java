@@ -69,6 +69,8 @@ public record OrderController(OrderRepository orderRepository, OrderProps props)
     public String ordersForUser(
             @AuthenticationPrincipal TacoUser user, Model model) {
 
+        LOG.info("page size: " + props.getPageSize());
+
         Pageable pageable = PageRequest.of(0, props.getPageSize());
 
         model.addAttribute("orders",
