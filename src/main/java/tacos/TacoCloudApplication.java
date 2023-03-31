@@ -1,15 +1,18 @@
 package tacos;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.context.annotation.Profile;
 import tacos.data.IngredientRepository;
 import tacos.domain.Ingredient;
 import tacos.domain.IngredientType;
 
 @SpringBootApplication
+@Slf4j
 public class TacoCloudApplication {
 
 	public static void main(String[] args) {
@@ -17,7 +20,9 @@ public class TacoCloudApplication {
 	}
 
     @Bean
+    @Profile("!prod")
     CommandLineRunner dataLoader(IngredientRepository repository) {
+        log.info("dataLoader bean is created.");
         return args -> {
             repository.save(new Ingredient("FLTO", "Flour Tortilla", IngredientType.WRAP));
             repository.save(new Ingredient("COTO", "Corn Tortilla", IngredientType.WRAP));
