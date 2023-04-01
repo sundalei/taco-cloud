@@ -48,7 +48,10 @@ public class SecurityConfig {
         http.formLogin(formLogin -> formLogin.loginPage("/login"));
         http.logout(logout -> logout.logoutSuccessUrl("/"));
 
-        http.csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
+        http.csrf(csrf -> {
+            csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"));
+            csrf.ignoringRequestMatchers("/api/**");
+        });
 
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
