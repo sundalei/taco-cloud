@@ -40,10 +40,8 @@ public class TacoController {
     public ResponseEntity<Taco> tacoById(@PathVariable Long id) {
         Optional<Taco> optTaco = tacoRepo.findById(id);
 
-        if (optTaco.isPresent()) {
-            return ResponseEntity.ok().body(optTaco.get());
-        }
-        return ResponseEntity.notFound().build();
+        return optTaco.map(taco -> ResponseEntity.ok().body(taco))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
