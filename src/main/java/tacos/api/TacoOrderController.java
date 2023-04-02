@@ -31,7 +31,8 @@ public record TacoOrderController(OrderRepository orderRepository, OrderProps or
 
     @GetMapping("/deliveryZip/{deliveryZip}/startDate/{startDate}/endDate/{endDate}")
     public List<TacoOrder> findOrdersByDeliveryZipAndDate(@PathVariable String deliveryZip,
-                                                          @PathVariable Date startDate, @PathVariable Date endDate) {
+                                                          @PathVariable Date startDate,
+                                                          @PathVariable Date endDate) {
         return orderRepository.readOrdersByDeliveryZipAndPlacedAtBetween(deliveryZip, startDate, endDate);
     }
 

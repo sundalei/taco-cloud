@@ -8,6 +8,10 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  data:
+    rest:
+      base-path: /data-api
+
 taco:
   orders:
     pageSize: 10
