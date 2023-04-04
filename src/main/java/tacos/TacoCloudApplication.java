@@ -5,6 +5,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+
+import tacos.client.IngredientClient;
 import tacos.data.IngredientRepository;
 import tacos.domain.Ingredient;
 import tacos.domain.IngredientType;
@@ -18,6 +21,7 @@ public class TacoCloudApplication {
 	}
 
     @Bean
+    @Profile("!prod")
     CommandLineRunner dataLoader(IngredientRepository repository) {
         log.info("dataLoader bean is created.");
         return args -> {
@@ -31,6 +35,19 @@ public class TacoCloudApplication {
             repository.save(new Ingredient("JACK", "Monterrey Jack", IngredientType.CHEESE));
             repository.save(new Ingredient("SLSA", "Salsa", IngredientType.SAUCE));
             repository.save(new Ingredient("SRCR", "Sour Cream", IngredientType.SAUCE));
+        };
+    }
+
+    @Bean
+    CommandLineRunner ingredientClientTester(IngredientClient client) {
+        return args -> {
+            // get ingredient response object by id
+            Ingredient ingredient = client.getIngredientResponseObjectById("FLTO");
+            log.info(ingredient.toString());
+
+            // get ingredient response entity by id
+            ingredient = client.getIngredientResponseEntityById("SRCR");
+            log.info(ingredient.toString());
         };
     }
 
