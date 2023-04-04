@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,7 @@ import jakarta.validation.constraints.Size;
 
 @Data
 @Entity
+@RepositoryRestResource(itemResourceRel = "tacos", path = "tacos")
 public class Taco {
 
     @Id
