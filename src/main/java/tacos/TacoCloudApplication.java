@@ -1,13 +1,12 @@
 package tacos;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
-import tacos.client.IngredientClient;
+import lombok.extern.slf4j.Slf4j;
 import tacos.data.IngredientRepository;
 import tacos.domain.Ingredient;
 import tacos.domain.IngredientType;
@@ -38,6 +37,7 @@ public class TacoCloudApplication {
         };
     }
 
+    /*
     @Bean
     CommandLineRunner ingredientClientTester(IngredientClient client) {
         return args -> {
@@ -50,5 +50,48 @@ public class TacoCloudApplication {
             log.info(ingredient.toString());
         };
     }
-
+    */
+    
+    /*
+    @Bean
+    CommandLineRunner updateIngredientTester(IngredientClient client) {
+    	return args -> {
+    		// update ingredient
+    		Ingredient ingredient = new Ingredient("MDTD", "Test Ingredient", IngredientType.CHEESE);
+    		client.updateIngredient(ingredient);
+    		log.info("ingredient updated.");
+    	};
+    }*/
+    
+    
+    /*
+    @Bean
+    CommandLineRunner deleteIngredientTester(IngredientClient client) {
+    	return args -> {
+    		// delete ingredient
+    		Ingredient ingredient = new Ingredient("MDTD", "Test Ingredient", IngredientType.CHEESE);
+    		client.deleteIngredient(ingredient);
+    		log.info("ingredient deleted.");
+    	};
+    }*/
+    
+    /* 
+    @Bean
+    CommandLineRunner createIngredientTester(IngredientClient client) {
+    	return args -> {
+    		// create ingredient
+    		Ingredient ingredient = new Ingredient("MDTD", "Test Ingredient", IngredientType.CHEESE);
+    		// client.createIngredientReturningLocation(ingredient);
+    		
+    		client.deleteIngredient(ingredient);
+    		log.info("ingredient deleted.");
+    		URI uri = client.createIngredientReturningLocation(ingredient);
+    		log.info("ingredient created with location {}.", uri);
+    		
+    		client.deleteIngredient(ingredient);
+    		log.info("ingredient deleted.");
+    		Ingredient created = client.createIngredientReturningEntity(ingredient);
+    		log.info("ingredient created {}.", created);
+    	};
+    } */
 }
