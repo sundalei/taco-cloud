@@ -36,3 +36,5 @@ build/
 *.log
 
 .DS_Store
+
+cookie

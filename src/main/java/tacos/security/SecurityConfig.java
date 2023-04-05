@@ -52,6 +52,7 @@ public class SecurityConfig {
             csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"));
             csrf.ignoringRequestMatchers("/api/**");
             csrf.ignoringRequestMatchers("/data-api/**");
+            csrf.ignoringRequestMatchers("/login");
         });
 
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
