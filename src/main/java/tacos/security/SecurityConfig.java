@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import tacos.data.UserRepository;
@@ -43,12 +45,14 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizeHttpRequests -> {
             authorizeHttpRequests.requestMatchers("/design", "/orders").hasAnyRole("USER", "ADMIN");
             authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll();
-            authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/api/ingredients").hasAuthority("SCOPE_writeIngredients");
-            authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/api/ingredients").hasAuthority("SCOPE_deleteIngredients");
+            authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/api/ingredients")
+                    .hasAuthority("SCOPE_writeIngredients");
+            authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/api/ingredients")
+                    .hasAuthority("SCOPE_deleteIngredients");
             authorizeHttpRequests.requestMatchers("/", "/**").permitAll();
         });
-        
-        http.oauth2ResourceServer(oauth2 -> oauth2.jwt());
+
+        http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
 
         http.formLogin(formLogin -> formLogin.loginPage("/login"));
         http.logout(logout -> logout.logoutSuccessUrl("/"));
@@ -63,5 +67,10 @@ public class SecurityConfig {
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
         return http.build();
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withJwkSetUri("http://localhost:9000/oauth2/jwks").build();
     }
 }
