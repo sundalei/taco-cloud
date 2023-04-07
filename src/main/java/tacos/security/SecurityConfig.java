@@ -2,6 +2,7 @@ package tacos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -42,8 +43,12 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizeHttpRequests -> {
             authorizeHttpRequests.requestMatchers("/design", "/orders").hasAnyRole("USER", "ADMIN");
             authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll();
+            authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/api/ingredients").hasAuthority("SCOPE_writeIngredients");
+            authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/api/ingredients").hasAuthority("SCOPE_deleteIngredients");
             authorizeHttpRequests.requestMatchers("/", "/**").permitAll();
         });
+        
+        http.oauth2ResourceServer(oauth2 -> oauth2.jwt());
 
         http.formLogin(formLogin -> formLogin.loginPage("/login"));
         http.logout(logout -> logout.logoutSuccessUrl("/"));

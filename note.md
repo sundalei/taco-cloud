@@ -53,3 +53,9 @@ run different profile via maven
 ```bash
 mvn spring-boot:run -Dspring-boot.run.profiles=mysql
 ```
+
+## Access ingredients api protected by resource server
+
+```bash
+curl -v -H"Content-type: application/json" -d'{"id":"CRKT", "name":"Legless Crickets", "type":"PROTEIN"}' -H"Authorization: Bearer eyJraWQiOiJiM2I5MWQ3ZC1kOTI3LTQzNjktYTdmOC03MmM0YTg4M2NkNjEiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdW5kYWxlaSIsImF1ZCI6InRhY28tYWRtaW4tY2xpZW50IiwibmJmIjoxNjgwODc3Mzk3LCJzY29wZSI6WyJkZWxldGVJbmdyZWRpZW50cyIsIndyaXRlSW5ncmVkaWVudHMiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjgwODc3Njk3LCJpYXQiOjE2ODA4NzczOTd9.fw9rYPhSiuG7xDYKUx54TnwhBWwni1cVXVE5gTHzzoNL1mPvRArFz4M4wGjeODKVX_mzrbpZCv37QKSjpNmN7LvTachdXAPqE-28vVisdNRpBVk4UWtlF22uSdcpNLjjNgizjiZrTjWM3u1frbaSeVihiBJnxZTQcLmNtqfpFubn8lPFCrMJ4C5SMS1TgzchlAdKBV24ZuemL66Pat3Ns9qaQXvdAKncsInVQqKwDLJ5RCJC4t76qSg8151L8exwsNR7UJbouZR4Dv_C2sl9p0BWo5WZShreAl1DXHQZxaHOBi6fwDc8AyIQx5ijJbpMflxOPwzFvHOEhHN7FC3GNQ" localhost:8080/api/ingredients
+```

@@ -2,7 +2,6 @@ package tacos.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +32,12 @@ public class IngredientController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Ingredient saveIngredient(@RequestBody Ingredient ingredient) {
 		return repo.save(ingredient);
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteIngredient(@PathVariable("id") String ingredientId) {
 		repo.deleteById(ingredientId);
