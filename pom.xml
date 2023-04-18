@@ -83,10 +83,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -102,44 +98,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.3.1</version>
-				<configuration>
-					<from>
-						<image>eclipse-temurin:17</image>
-						<platforms>
-							<platform>
-								<architecture>arm64</architecture>
-								<os>linux</os>
-							</platform>
-							<platform>
-								<architecture>amd64</architecture>
-								<os>linux</os>
-							</platform>
-						</platforms>
-					</from>
-					<to>
-						<image>sundalei/${project.artifactId}:${project.version}</image>
-						<tags>
-						  <tag>latest</tag>
-						</tags>
-						<auth>
-							<username>sundalei</username>
-							<password>oarnud9Itest</password>
-						</auth>
-					</to>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
