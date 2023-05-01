@@ -2,6 +2,7 @@ package tacos.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import jakarta.validation.constraints.Size;
 
 @Data
 @Entity
-public class Taco {
+public class Taco implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
