@@ -12,7 +12,7 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
 
-  postgres:
+  postgres-db:
     image: postgres:15
     restart: always
     environment:
